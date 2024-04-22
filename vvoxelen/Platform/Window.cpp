@@ -3,8 +3,12 @@
 
 namespace vvoxelen{
 
+    Window* Window::singleton = nullptr;
+
 	Window::Window(std::string title, int width, int height) : title(title), width(width), height(height)
 	{
+        SDL_assert(singleton == nullptr);
+        singleton = this;
         // Create an SDL window that supports Vulkan rendering.
         if (SDL_Init(SDL_INIT_VIDEO) != 0) {
             std::cout << "Could not initialize SDL." << std::endl;
@@ -65,5 +69,9 @@ namespace vvoxelen{
 
             SDL_Delay(10);
         }
+    }
+    Window* Window::getSingleton()
+    {
+        return singleton;
     }
 }

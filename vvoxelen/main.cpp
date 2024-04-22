@@ -5,7 +5,7 @@
 #define SDL_MAIN_HANDLED
 
 #include "Platform/Window.h"
-#include "Render/VulkanRender.h"
+#include "Graphics/VulkanGraphics.h"
 
 #include <iostream>
 #include <vector>
@@ -13,7 +13,9 @@
 int main()
 {
     vvoxelen::Window window("Voxel Engine", 800, 600);
-    vvoxelen::VulkanRender render(&window);
+    vvoxelen::VulkanGraphics render;
+    render.createInstance();
+    render.createSurface();
     window.run();
     return 0;
 }

@@ -19,7 +19,7 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Render\VulkanRender.cpp">
+    <ClCompile Include="Graphics\VulkanGraphics.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Platform\Window.cpp">
@@ -27,7 +27,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Render\VulkanRender.h">
+    <ClInclude Include="Graphics\VulkanGraphics.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Platform\Window.h">

@@ -4,21 +4,24 @@
 #include <vector>
 #include <string>
 #include <iostream>
+#include <assert.h>
 
 #include "../Platform/Window.h"
 
 namespace vvoxelen{
-	class VulkanRender
+	class VulkanGraphics
 	{
 	public:
-		VulkanRender(Window* currentWindow);
-		~VulkanRender();
+		VulkanGraphics();
+		~VulkanGraphics();
 
+		void initVulkan();
 		void createInstance();
 		void createSurface();
+		static VulkanGraphics* GetSingleton();
 	private:
-		Window* vvoxWindow;
 		VkInstance instance;
 		VkSurfaceKHR surface;
+		static VulkanGraphics* singleton;
 	};
 }

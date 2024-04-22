@@ -16,12 +16,16 @@ namespace vvoxelen
 		~Window();
 		std::vector<const char*> GetSDLExtensions();
 		bool CreateVulkanSurface(VkInstance instance, VkSurfaceKHR& surface);
+		std::string getTitle() { return title; }
 		void run();
+		static Window* getSingleton();
 	private:
 		SDL_Window* window;
 		std::string title;
 		int width;
 		int height;
+
+		static Window* singleton;
 	};
 }
 

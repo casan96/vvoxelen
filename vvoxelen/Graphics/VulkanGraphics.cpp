@@ -1,13 +1,14 @@
-#include "VulkanRender.h"
+#include "VulkanGraphics.h"
 
-vvoxelen::VulkanRender::VulkanRender(Window* currentWindow)
+vvoxelen::VulkanGraphics* vvoxelen::VulkanGraphics::singleton = nullptr;
+
+vvoxelen::VulkanGraphics::VulkanGraphics() : instance(VK_NULL_HANDLE), surface(VK_NULL_HANDLE)
 {
-    vvoxWindow = currentWindow;
-    createInstance();
-	createSurface();
+    assert(singleton == nullptr);
+    singleton = this;
 }
 
-vvoxelen::VulkanRender::~VulkanRender()
+vvoxelen::VulkanGraphics::~VulkanGraphics()
 {
     // Clean up.
     vkDestroySurfaceKHR(instance, surface, NULL);
@@ -15,7 +16,13 @@ vvoxelen::VulkanRender::~VulkanRender()
     vkDestroyInstance(instance, NULL);
 }
 
-void vvoxelen::VulkanRender::createInstance()
+void vvoxelen::VulkanGraphics::initVulkan()
+{
+	createInstance();
+	createSurface();
+}
+
+void vvoxelen::VulkanGraphics::createInstance()
 {
     // Use validation layers if this is a debug build
     std::vector<const char*> layers;
@@ -28,13 +35,14 @@ void vvoxelen::VulkanRender::createInstance()
     VkApplicationInfo appInfo = {};
     appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
     appInfo.pNext = NULL;
-    appInfo.pApplicationName = "Vulkan Program Template";
+    std::string appName = Window::getSingleton()->getTitle();
+    appInfo.pApplicationName = appName.c_str();
     appInfo.applicationVersion = 1;
-    appInfo.pEngineName = "LunarG SDK";
+    appInfo.pEngineName = "VoxelEngine";
     appInfo.engineVersion = 1;
     appInfo.apiVersion = VK_API_VERSION_1_0;
 
-    std::vector<const char*> extensions = vvoxWindow->GetSDLExtensions();
+    std::vector<const char*> extensions = Window::getSingleton()->GetSDLExtensions();
     // VkInstanceCreateInfo is where the programmer specifies the layers and/or extensions that
     // are needed.
     VkInstanceCreateInfo instInfo = {};
@@ -60,11 +68,16 @@ void vvoxelen::VulkanRender::createInstance()
     }
 }
 
-void vvoxelen::VulkanRender::createSurface()
+void vvoxelen::VulkanGraphics::createSurface()
 {
     // Create a Vulkan surface for rendering
-    if (!vvoxWindow->CreateVulkanSurface(instance, surface)) {
+    if (!Window::getSingleton()->CreateVulkanSurface(instance, surface)) {
         std::cout << "Could not create a Vulkan surface." << std::endl;
         exit(1);
     }
+}
+
+vvoxelen::VulkanGraphics* vvoxelen::VulkanGraphics::GetSingleton()
+{
+    return singleton;
 }

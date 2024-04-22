@@ -23,5 +23,6 @@ namespace vvoxelen{
 		VkInstance instance;
 		VkSurfaceKHR surface;
 		static VulkanGraphics* singleton;
+		std::vector<const char*> GetRequiredExtensions();
 	};
 }

@@ -30,7 +30,7 @@ namespace vvoxelen{
     // Get WSI extensions from SDL 
     std::vector<const char*> Window::GetSDLExtensions()
     {
-        unsigned extension_count;
+        unsigned int extension_count;
         if (!SDL_Vulkan_GetInstanceExtensions(window, &extension_count, NULL)) {
             std::cout << "Could not get the number of required instance extensions from SDL." << std::endl;
             exit(1);

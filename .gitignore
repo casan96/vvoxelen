@@ -30,3 +30,8 @@
 *.exe
 *.out
 *.app
+
+# VS Folders
+.vs/
+x64/
+vvoxelen/x64/

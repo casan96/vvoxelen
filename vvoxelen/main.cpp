@@ -14,8 +14,7 @@ int main()
 {
     vvoxelen::Window window("Voxel Engine", 800, 600);
     vvoxelen::VulkanGraphics render;
-    render.createInstance();
-    render.createSurface();
+    render.initVulkan();
     window.run();
     return 0;
 }

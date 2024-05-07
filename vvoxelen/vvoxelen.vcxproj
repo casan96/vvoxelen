@@ -156,13 +156,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Core\Cube.cpp" />
+    <ClCompile Include="helpers\image.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Graphics\VulkanGraphics.cpp" />
     <ClCompile Include="Platform\Window.cpp" />
+    <ClCompile Include="Core\Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Core\Cube.h" />
     <ClInclude Include="Graphics\VulkanGraphics.h" />
+    <ClInclude Include="helpers\stb_image.h" />
     <ClInclude Include="Platform\Window.h" />
+    <ClInclude Include="Core\Texture.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

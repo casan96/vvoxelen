@@ -12,9 +12,11 @@
 
 int main()
 {
-    vvoxelen::Window window("Voxel Engine", 800, 600);
-    vvoxelen::VulkanGraphics render;
-    render.initVulkan();
-    window.run();
+    vvoxelen::Window* window = new vvoxelen::Window("Voxel Engine", 800, 600);
+    vvoxelen::VulkanGraphics* render = new vvoxelen::VulkanGraphics();
+    render->initVulkan();
+    window->run();
+    delete render;
+    delete window;
     return 0;
 }

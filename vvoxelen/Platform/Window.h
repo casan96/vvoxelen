@@ -17,6 +17,10 @@ namespace vvoxelen
 		std::vector<const char*> GetSDLExtensions();
 		bool CreateVulkanSurface(VkInstance instance, VkSurfaceKHR& surface);
 		std::string getTitle() { return title; }
+		int getWidth() { return width; }
+		int getHeight() { return height; }
+		void setWidth(int width) { this->width = width; }
+		void setHeight(int height) { this->height = height; }
 		void run();
 		static Window* getSingleton();
 	private:

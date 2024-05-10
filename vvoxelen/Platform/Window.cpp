@@ -1,5 +1,6 @@
 
 #include "Window.h"
+#include"../Core/Cube.h"
 
 namespace vvoxelen{
 
@@ -48,6 +49,7 @@ namespace vvoxelen{
     }
     void Window::run()
     {
+        Cube cube;
         // Poll for user input.
         bool stillRunning = true;
         while (stillRunning) {

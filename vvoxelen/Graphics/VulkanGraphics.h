@@ -36,6 +36,10 @@ namespace vvoxelen{
 
 		void CreateRenderPass();
 
+		void flushCmdBuffer(VkCommandBuffer commandBuffer);
+
+		void flushCommandBuffer(VkCommandBuffer commandBuffer, VkQueue queue, bool free);
+
 		VkCommandBuffer BeginSingleTimeCommands();
 
 		VkResult createBuffer(VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties, VkBuffer& buffer, VkDeviceMemory& bufferMemory);

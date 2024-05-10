@@ -1,4 +1,6 @@
 #pragma once
+
+
 #include <glm/glm.hpp>
 #include <vulkan/vulkan.h>
 
@@ -53,7 +55,13 @@ namespace vvoxelen {
 		VkBuffer indexBuffer{};
 		VkDeviceMemory indexBufferMemory{};
 
+		VkImage textureImage{};
+		VkDeviceMemory textureImageMemory{};
 
+		VkSampler textureSampler{};
+		VkImageView textureImageView{};
+
+		void loadTexture();
 	public:
 
 		Cube();

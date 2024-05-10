@@ -652,6 +652,33 @@ namespace vvoxelen{
         assert(vkCreateRenderPass(deviceData.device, &renderPassInfo, nullptr, &renderPass) == VK_SUCCESS);
     }
 
+    void VulkanGraphics::flushCmdBuffer(VkCommandBuffer commandBuffer)
+    {
+		flushCommandBuffer(commandBuffer, deviceData.queue, true);
+    }
+
+    void VulkanGraphics::flushCommandBuffer(VkCommandBuffer commandBuffer, VkQueue queue, bool free)
+    {
+        assert(vkEndCommandBuffer(commandBuffer) == VK_SUCCESS);
+
+        VkSubmitInfo submitInfo = {};
+        submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+        submitInfo.commandBufferCount = 1;
+        submitInfo.pCommandBuffers = &commandBuffer;
+
+        VkFenceCreateInfo fenceInfo = {};
+        fenceInfo.sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;
+        fenceInfo.flags = 0;
+        VkFence fence;
+        assert(vkCreateFence(deviceData.device, &fenceInfo, nullptr, &fence) == VK_SUCCESS);
+        assert(vkQueueSubmit(queue, 1, &submitInfo, fence) == VK_SUCCESS);
+        assert(vkWaitForFences(deviceData.device, 1, &fence, VK_TRUE, 100000000000) == VK_SUCCESS);
+
+        vkDestroyFence(deviceData.device, fence, nullptr);
+
+        if (free) vkFreeCommandBuffers(deviceData.device, commandPool, 1, &commandBuffer);
+    }
+
     VkCommandBuffer VulkanGraphics::BeginSingleTimeCommands()
     {
 		VkCommandBufferAllocateInfo allocInfo = {};
@@ -696,24 +723,8 @@ namespace vvoxelen{
 		VkBufferCopy copyRegion = {};
 		copyRegion.size = size;
 		vkCmdCopyBuffer(commandBuffer, srcBuffer, dstBuffer, 1, &copyRegion);
-        assert(vkEndCommandBuffer(commandBuffer) == VK_SUCCESS);
-
-        VkSubmitInfo submitInfo = {};
-		submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
-        submitInfo.commandBufferCount = 1;
-		submitInfo.pCommandBuffers = &commandBuffer;
-
-        VkFenceCreateInfo fenceInfo = {};
-		fenceInfo.sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;
-        fenceInfo.flags = 0;
-		VkFence fence;
-		assert(vkCreateFence(deviceData.device, &fenceInfo, nullptr, &fence) == VK_SUCCESS);
-        assert(vkQueueSubmit(deviceData.queue, 1, &submitInfo, fence) == VK_SUCCESS);
-        assert(vkWaitForFences(deviceData.device, 1, &fence, VK_TRUE, 100000000000) == VK_SUCCESS);
-
-        vkDestroyFence(deviceData.device, fence, nullptr);
-
-		vkFreeCommandBuffers(deviceData.device, commandPool, 1, &commandBuffer);
+        
+        flushCommandBuffer(commandBuffer, deviceData.queue, true);
 
         return VkResult::VK_SUCCESS;
     }
